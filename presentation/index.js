@@ -28,9 +28,6 @@ const theme = createTheme({
   primary: "#ff4081"
 });
 
-const prevSlide = () => console.log("whats up bro prev");
-const nextSlide = () => console.log("whats up bro next");
-
 export default class Presentation extends React.Component {
   render() {
     return (
@@ -38,8 +35,6 @@ export default class Presentation extends React.Component {
         <Deck
           transition={["zoom", "slide"]}
           transitionDuration={500}
-          prevSlide={prevSlide}
-          nextSlide={nextSlide}
         >
           <Slide transition={["zoom"]} bgColor="primary">
             <Heading size={1} fit caps lineHeight={1} textColor="black">
