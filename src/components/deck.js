@@ -404,8 +404,6 @@ export default class Deck extends Component {
       this.props.route.params.indexOf("presenter") === -1;
 
     const { prevSlide, nextSlide } = this.props;
-    console.log(prevSlide);
-    console.log(nextSlide);
 
     return (
       <div
