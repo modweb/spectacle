@@ -89,14 +89,13 @@ export default class Deck extends Component {
   }
   _handleEvent(e) {
     const event = window.event ? window.event : e;
-    const { prevSlide, nextSlide } = this.props;
+    const prevSlide = this.props.prevSlide || this._prevSlide;
+    const nextSlide = this.props.nextSlide || this._nextSlide;
 
     if (event.keyCode === 37 || event.keyCode === 33 || (event.keyCode === 32 && event.shiftKey)) {
-      this._prevSlide();
-      if (prevSlide) prevSlide();
+      prevSlide();
     } else if (event.keyCode === 39 || event.keyCode === 34 || (event.keyCode === 32 && !event.shiftKey)) {
-      this._nextSlide();
-      if (nextSlide) nextSlide();
+      nextSlide();
     } else if ((event.altKey && event.keyCode === 79) && !event.ctrlKey && !event.metaKey) { // o
       this._toggleOverviewMode();
     } else if ((event.altKey && event.keyCode === 80) && !event.ctrlKey && !event.metaKey) { // p
