@@ -1,8 +1,11 @@
 {
-  "name": "spectacle",
-  "version": "1.1.4",
+  "name": "mrrs-spectacle",
+  "version": "1.2.5",
   "description": "ReactJS Powered Presentation Framework",
   "main": "lib/index.js",
+  "publishConfig": {
+    "registry": "http://localhost:4873"
+  },
   "scripts": {
     "clean:lib": "rimraf lib",
     "clean:dist": "rimraf dist",

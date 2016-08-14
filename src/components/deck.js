@@ -38,6 +38,8 @@ export default class Deck extends Component {
     route: PropTypes.object,
     transition: PropTypes.array,
     transitionDuration: PropTypes.number,
+    prevSlide: PropTypes.func,
+    nextSlide: PropTypes.func,
     progress: PropTypes.oneOf(["pacman", "bar", "number", "none"])
   };
 
@@ -87,11 +89,13 @@ export default class Deck extends Component {
   }
   _handleEvent(e) {
     const event = window.event ? window.event : e;
+    const prevSlide = this.props.prevSlide || this._prevSlide;
+    const nextSlide = this.props.nextSlide || this._nextSlide;
 
     if (event.keyCode === 37 || event.keyCode === 33 || (event.keyCode === 32 && event.shiftKey)) {
-      this._prevSlide();
+      prevSlide();
     } else if (event.keyCode === 39 || event.keyCode === 34 || (event.keyCode === 32 && !event.shiftKey)) {
-      this._nextSlide();
+      nextSlide();
     } else if ((event.altKey && event.keyCode === 79) && !event.ctrlKey && !event.metaKey) { // o
       this._toggleOverviewMode();
     } else if ((event.altKey && event.keyCode === 80) && !event.ctrlKey && !event.metaKey) { // p
@@ -393,7 +397,6 @@ export default class Deck extends Component {
         <TransitionGroup component="div" style={[styles.transition]}>
           {this._renderSlide()}
         </TransitionGroup>);
-
     }
 
     const showControls = !this.state.fullscreen &&
@@ -401,6 +404,8 @@ export default class Deck extends Component {
       this.props.route.params.indexOf("export") === -1 &&
       this.props.route.params.indexOf("overview") === -1 &&
       this.props.route.params.indexOf("presenter") === -1;
+
+    const { prevSlide, nextSlide } = this.props;
 
     return (
       <div
@@ -413,8 +418,8 @@ export default class Deck extends Component {
             <Controls
               currentSlide={this._getSlideIndex()}
               totalSlides={children.length}
-              onPrev={this._prevSlide.bind(this)}
-              onNext={this._nextSlide.bind(this)}
+              onPrev={prevSlide || this._prevSlide.bind(this)}
+              onNext={nextSlide || this._nextSlide.bind(this)}
             />}
 
         {componentToRender}
