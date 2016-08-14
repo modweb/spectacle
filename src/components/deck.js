@@ -38,6 +38,8 @@ export default class Deck extends Component {
     route: PropTypes.object,
     transition: PropTypes.array,
     transitionDuration: PropTypes.number,
+    prevSlide: PropTypes.func,
+    nextSlide: PropTypes.func,
     progress: PropTypes.oneOf(["pacman", "bar", "number", "none"])
   };
 
@@ -402,6 +404,8 @@ export default class Deck extends Component {
       this.props.route.params.indexOf("overview") === -1 &&
       this.props.route.params.indexOf("presenter") === -1;
 
+    const { prevSlide, nextSlide } = this.props;
+
     return (
       <div
         className="spectacle-deck"
@@ -413,8 +417,8 @@ export default class Deck extends Component {
             <Controls
               currentSlide={this._getSlideIndex()}
               totalSlides={children.length}
-              onPrev={this._prevSlide.bind(this)}
-              onNext={this._nextSlide.bind(this)}
+              onPrev={prevSlide || this._prevSlide.bind(this)}
+              onNext={nextSlide || this._nextSlide.bind(this)}
             />}
 
         {componentToRender}
