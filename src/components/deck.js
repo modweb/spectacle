@@ -65,6 +65,8 @@ export default class Deck extends Component {
       fullscreen: window.innerHeight === screen.height,
       mobile: window.innerWidth < 1000
     };
+
+    console.log(this.context);
   }
 
   componentDidMount() {
@@ -148,9 +150,8 @@ export default class Deck extends Component {
   }
   _prevSlide() {
     const slide = this._getSlideIndex();
-    this.setState({
-      lastSlide: slide
-    });
+    this.setState({ lastSlide: slide });
+
     if (this._checkFragments(this.props.route.slide, false) || this.props.route.params.indexOf("overview") !== -1) {
       if (slide > 0) {
         this.context.history.replace(`/${this._getHash(slide - 1)}${this._getSuffix()}`);
@@ -164,9 +165,7 @@ export default class Deck extends Component {
   }
   _nextSlide() {
     const slide = this._getSlideIndex();
-    this.setState({
-      lastSlide: slide
-    });
+    this.setState({ lastSlide: slide });
     if (this._checkFragments(this.props.route.slide, true) || this.props.route.params.indexOf("overview") !== -1) {
       if (slide < this.props.children.length - 1) {
         this.context.history.replace(`/${this._getHash(slide + 1) + this._getSuffix()}`);
@@ -406,7 +405,6 @@ export default class Deck extends Component {
       this.props.route.params.indexOf("presenter") === -1;
 
     const { prevSlide, nextSlide } = this.props;
-    console.log(this.context.slide);
 
     return (
       <div
@@ -426,7 +424,8 @@ export default class Deck extends Component {
         {componentToRender}
 
         {
-          this.props.route.params.indexOf("export") === -1 && this.props.route.params.indexOf("overview") === -1 ?
+          this.props.route.params.indexOf("export") === -1 &&
+          this.props.route.params.indexOf("overview") === -1 ?
           <Progress
             items={children}
             currentSlide={this._getSlideIndex()}
