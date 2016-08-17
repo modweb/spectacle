@@ -36,6 +36,9 @@ module.exports = {
       test: /\.(png|jpg)$/,
       loader: "url-loader?limit=8192"
     }, {
+      test: /\.json$/,
+      loader: "json-loader"
+    }, {
       test: /\.svg$/,
       loader: "url?limit=10000&mimetype=image/svg+xml"
     }]
