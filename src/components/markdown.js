@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from "react";
-import mdast from "mdast";
-import mdastReact from "mdast-react";
+import remark from "remark";
+import remarkReact from "remark-react";
 import { isUndefined } from "lodash";
 
 import BlockQuote from "./block-quote";
@@ -15,7 +15,7 @@ import Quote from "./quote";
 import S from "./s";
 import Text from "./text";
 
-// We can't pass props into mdast-react directly, so we have to "bind" them
+// We can't pass props into remark-react directly, so we have to "bind" them
 // to spectacle components (ex. headings, strong/em/del)
 const spectacleComponent = (component, boundProps = {}) => {
   return React.createClass({
@@ -43,10 +43,10 @@ CombinedBlockQuote.propTypes = {
 };
 
 // We export the default config so people can extend it themselves
-export const mdastConfigDefault = {
+export const remarkConfigDefault = {
   commonmark: true,
   paragraphBlockquotes: false,
-  mdastReactComponents: {
+  remarkReactComponents: {
     a: Link,
     blockquote: CombinedBlockQuote,
     code: CodePane,
@@ -69,12 +69,12 @@ export const mdastConfigDefault = {
 
 export default class Markdown extends React.Component {
   render() {
-    const { source, children, mdastConfig } = this.props;
+    const { source, children, remarkConfig } = this.props;
     const content = (isUndefined(source) || source === "") ? children : source;
 
     return (
       <div style={this.props.style}>
-        {mdast().use(mdastReact, mdastConfig).process(content)}
+        {remark().use(remarkReact, remarkConfig).process(content)}
       </div>
     );
   }
@@ -84,11 +84,11 @@ Markdown.propTypes = {
   style: PropTypes.object,
   children: PropTypes.node,
   source: PropTypes.string,
-  mdastConfig: PropTypes.object
+  remarkConfig: PropTypes.object
 };
 
 Markdown.defaultProps = {
   style: {},
   source: "",
-  mdastConfig: mdastConfigDefault
+  remarkConfig: remarkConfigDefault
 };
