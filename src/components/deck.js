@@ -40,7 +40,8 @@ export default class Deck extends Component {
     transitionDuration: PropTypes.number,
     prevSlide: PropTypes.func,
     nextSlide: PropTypes.func,
-    progress: PropTypes.oneOf(["pacman", "bar", "number", "none"])
+    progress: PropTypes.oneOf(["pacman", "bar", "number", "none"]),
+    slide: PropTypes.object
   };
 
   static contextTypes = {
@@ -65,8 +66,6 @@ export default class Deck extends Component {
       fullscreen: window.innerHeight === screen.height,
       mobile: window.innerWidth < 1000
     };
-
-    console.log(this.context);
   }
 
   componentDidMount() {
@@ -321,7 +320,7 @@ export default class Deck extends Component {
     return index;
   }
   _renderSlide() {
-    const slide = this._getSlideIndex();
+    const slide = this.props.slide ? this.props.slide.number : this._getSlideIndex();
     const child = Children.toArray(this.props.children)[slide];
     return cloneElement(child, {
       dispatch: this.props.dispatch,
