@@ -40,6 +40,7 @@ export default class Deck extends Component {
     transitionDuration: PropTypes.number,
     prevSlide: PropTypes.func,
     nextSlide: PropTypes.func,
+    reportSlideCount: PropTypes.func,
     progress: PropTypes.oneOf(["pacman", "bar", "number", "none"])
   };
 
@@ -65,16 +66,18 @@ export default class Deck extends Component {
       fullscreen: window.innerHeight === screen.height,
       mobile: window.innerWidth < 1000
     };
-
-    console.log(this.context);
   }
 
   componentDidMount() {
     const slide = this._getSlideIndex();
-    this.setState({
-      lastSlide: slide
-    });
+    this.setState({ lastSlide: slide });
     this._attachEvents();
+
+    const { reportSlideCount } = this.props;
+    if (reportSlideCount) {
+      const count = React.Children.count(this.props.children);
+      reportSlideCount(count);
+    }
   }
   componentWillUnmount() {
     this._detachEvents();
@@ -140,9 +143,8 @@ export default class Deck extends Component {
     if (e.key === "spectacle-slide") {
       const data = JSON.parse(e.newValue);
       const slide = this._getSlideIndex();
-      this.setState({
-        lastSlide: slide || 0
-      });
+
+      this.setState({ lastSlide: slide || 0 });
       if (this._checkFragments(this.props.route.slide, data.forward)) {
         this.context.history.replace(`/${data.slide}${this._getSuffix()}`);
       }
