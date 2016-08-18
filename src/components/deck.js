@@ -64,15 +64,15 @@ export default class Deck extends Component {
     slide: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
   };
 
-  constructor() {
+  constructor(props) {
     super();
     this._handleKeyPress = this._handleKeyPress.bind(this);
     this._handleScreenChange = this._handleScreenChange.bind(this);
     this._handleClick = this._handleClick.bind(this);
     this._goToSlide = this._goToSlide.bind(this);
 
-    this.prevSlide = this.props.prevSlide || this._prevSlide;
-    this.nextSlide = this.props.nextSlide || this._nextSlide;
+    this.prevSlide = props.prevSlide || this._prevSlide;
+    this.nextSlide = props.nextSlide || this._nextSlide;
 
     this.state = {
       lastSlide: null,
