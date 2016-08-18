@@ -70,6 +70,10 @@ export default class Deck extends Component {
     this._handleScreenChange = this._handleScreenChange.bind(this);
     this._handleClick = this._handleClick.bind(this);
     this._goToSlide = this._goToSlide.bind(this);
+
+    this.prevSlide = this.props.prevSlide || this._prevSlide;
+    this.nextSlide = this.props.nextSlide || this._nextSlide;
+
     this.state = {
       lastSlide: null,
       fullscreen: window.innerHeight === screen.height,
@@ -99,13 +103,11 @@ export default class Deck extends Component {
   }
   _handleEvent(e) {
     const event = window.event ? window.event : e;
-    const prevSlide = this.props.prevSlide || this._prevSlide;
-    const nextSlide = this.props.nextSlide || this._nextSlide;
 
     if (event.keyCode === 37 || event.keyCode === 33 || (event.keyCode === 32 && event.shiftKey)) {
-      prevSlide();
+      this.prevSlide();
     } else if (event.keyCode === 39 || event.keyCode === 34 || (event.keyCode === 32 && !event.shiftKey)) {
-      nextSlide();
+      this.nextSlide();
     } else if ((event.altKey && event.keyCode === 79) && !event.ctrlKey && !event.metaKey) { // o
       this._toggleOverviewMode();
     } else if ((event.altKey && event.keyCode === 80) && !event.ctrlKey && !event.metaKey) { // p
