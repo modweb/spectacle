@@ -67,21 +67,17 @@ export default class Deck extends Component {
       fullscreen: window.innerHeight === screen.height,
       mobile: window.innerWidth < 1000
     };
+
+    if (this.props.reportSlideCount) {
+      const count = Children.count(this.props.children);
+      this.props.reportSlideCount(count);
+    }
   }
 
   componentDidMount() {
     const slide = this._getSlideIndex();
     this.setState({ lastSlide: slide });
     this._attachEvents();
-
-    const reportCount = _.once(({ props }) => {
-      if (props.reportSlideCount) {
-        const count = Children.count(props.children);
-        props.reportSlideCount(count);
-      }
-    });
-
-    reportCount(this);
   }
   componentWillUnmount() {
     this._detachEvents();
