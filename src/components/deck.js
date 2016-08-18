@@ -15,7 +15,15 @@ import Overview from "./overview";
 import Fullscreen from "./fullscreen";
 import Progress from "./progress";
 import Controls from "./controls";
+
 const TransitionGroup = Radium(ReactTransitionGroup);
+
+const reportCount = _.once(({ reportSlideCount, children }) => {
+  if (reportSlideCount) {
+    const count = Children.count(children);
+    reportSlideCount(count);
+  }
+});
 
 @connect((state) => state)
 @Radium
@@ -67,17 +75,14 @@ export default class Deck extends Component {
       fullscreen: window.innerHeight === screen.height,
       mobile: window.innerWidth < 1000
     };
-
-    if (this.props.reportSlideCount) {
-      const count = Children.count(this.props.children);
-      this.props.reportSlideCount(count);
-    }
   }
 
   componentDidMount() {
     const slide = this._getSlideIndex();
     this.setState({ lastSlide: slide });
     this._attachEvents();
+
+    reportCount(this.props);
   }
   componentWillUnmount() {
     this._detachEvents();
