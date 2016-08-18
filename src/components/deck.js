@@ -311,7 +311,7 @@ export default class Deck extends Component {
   }
   _getSlideIndex() {
     if (this.props.slide) {
-      return this.props.slide.number;
+      return this.props.slide.number || 0;
     }
 
     let index = 0;
