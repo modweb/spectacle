@@ -74,10 +74,9 @@ export default class Deck extends Component {
     this.setState({ lastSlide: slide });
     this._attachEvents();
 
-    const { reportSlideCount } = this.props;
-    if (reportSlideCount) {
-      const count = React.Children.count(this.props.children);
-      reportSlideCount(count);
+    if (this.props.reportSlideCount) {
+      const count = Children.count(this.props.children);
+      this.props.reportSlideCount(count);
     }
   }
   componentWillUnmount() {
@@ -182,7 +181,7 @@ export default class Deck extends Component {
   }
   _getHash(slide) {
     let hash = slide;
-    const children = React.Children.toArray(this.props.children);
+    const children = Children.toArray(this.props.children);
     if ("id" in children[slide].props) {
       hash = children[slide].props.id;
     }
@@ -311,6 +310,10 @@ export default class Deck extends Component {
     return 0;
   }
   _getSlideIndex() {
+    if (this.props.slide) {
+      return this.props.slide.number;
+    }
+
     let index = 0;
     if (!parseInt(this.props.route.slide)) {
       Children.toArray(this.props.children).forEach((slide, i) => {
@@ -324,7 +327,7 @@ export default class Deck extends Component {
     return index;
   }
   _renderSlide() {
-    const slide = this.props.slide ? this.props.slide.number : this._getSlideIndex();
+    const slide = this._getSlideIndex();
     const child = Children.toArray(this.props.children)[slide];
     return cloneElement(child, {
       dispatch: this.props.dispatch,
