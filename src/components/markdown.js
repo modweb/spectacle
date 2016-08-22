@@ -74,7 +74,7 @@ export default class Markdown extends React.Component {
 
     return (
       <div style={this.props.style}>
-        {remark().use(remarkReact, remarkConfig).process(content)}
+        {remark().use(remarkReact, remarkConfig).process(content).contents}
       </div>
     );
   }
