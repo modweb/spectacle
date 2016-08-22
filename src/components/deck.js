@@ -65,8 +65,6 @@ export default class Deck extends Component {
       fullscreen: window.innerHeight === screen.height,
       mobile: window.innerWidth < 1000
     };
-
-    console.log(this.context);
   }
 
   componentDidMount() {
