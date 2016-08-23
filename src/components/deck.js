@@ -336,7 +336,7 @@ export default class Deck extends Component {
   _renderSlide() {
     const slide = this._getSlideIndex();
     const child = Children.toArray(this.props.children)[slide];
-    return cloneElement(child, {
+    return child && cloneElement(child, {
       dispatch: this.props.dispatch,
       fragments: this.props.fragment,
       key: slide,
